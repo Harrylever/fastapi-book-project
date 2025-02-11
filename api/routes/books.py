@@ -30,13 +30,6 @@ db.books = {
         publication_year=1955,
         genre=Genre.FANTASY,
     ),
-    4: Book(
-        id=4,
-        title="Sample Book to Test CI Pipeline",
-        author="harrylever",
-        publication_year=2025,
-        genre=Genre.FANTASY,
-    ),
 }
 
 
