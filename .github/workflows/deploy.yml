@@ -40,10 +40,30 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${SSH_USER}@${SSH_HOST} << 'EOF'
+            set -e
+
+            echo "🔹 Updating system packages..."
+            sudo apt update -y 
+
+            echo "🔹 Installing Python and Pip..."
+            sudo apt install -y python3 python3-venv python3-pip
+
+            echo "🔹 Navigating to project directory..."
             cd /home/repos/fastapi-book-project
+
+            echo "🔹 Pulling latest code..."
             git pull origin main
-            python -m venv venv
+
+            echo "🔹 Setting up virtual environment..."
+            python3 -m venv venv
             source venv/bin/activate
+
+            echo "🔹 Installing dependencies..."
+            pip install --upgrade pip
             pip install -r requirements.txt
-            systemctl restart fastapi.service
+
+            echo "🔹 Restarting FastAPI service..."
+            sudo systemctl restart fastapi.service
+
+            echo "✅ Deployment successful!"
           EOF
